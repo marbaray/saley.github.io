@@ -1,60 +1,206 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo&family=Lobster&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo&display=swap" rel="stylesheet">
+<html lang="fr">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+        body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: antiquewhite;
+    }
+
+    .form {
+        width: 50%;
+        background-color: aqua;
+        padding: 40px;
+        margin: 10px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .date{
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #584f4f;
+    }
+    .hD{
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #584f4f;
+    }
+    .hA{
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #584f4f;
+    }
+    .km{
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #584f4f;
+    }
+    .meteo{
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #584f4f;
+    }
+
+    button{
+        background-color: cadetblue;
+        color: white;
+        padding: 10px;
+        transition: 0.5s;
+        cursor: pointer;
+    }
+    .boutton:hover{
+        color: beige;
+        transform: scale(0.9);
+    }
+
+    .varVm {
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #584f4f;
+    }
+
+    .idVar {
+        margin: auto;
+        padding: 10px;
+        border: 1px solid #584f4f;
+    }
+
+    .incident {
+
+        padding: 5px;
+
+    }
+    </style>
+
+    <script>
+            
+        let expCondList = [
+            {"id":"1","dateExpCond":"2024-05-08","heure_depart":"08:00","heure_arrivee":"09:00","kilometrage":"100","idMeteo":"2","idVar2":"3","idVar1":"2"},
+            {"id":"2","dateExpCond":"2024-06-08","heure_depart":"07:00","heure_arrivee":"08:00","kilometrage":"10","idMeteo":"1","idVar2":"3","idVar1":"1"},
+            {"id":"3","dateExpCond":"2024-05-08","heure_depart":"08:00","heure_arrivee":"09:00","kilometrage":"100","idMeteo":"3","idVar2":"3"}
+        ];
+        
+        let categoryMeteo = [
+            {"idMeteo":"1", "meteo":"Beau temps", "validMeteo1":"1"},
+            {"idMeteo":"2", "meteo":"Nuageux", "validMeteo1":"1"},
+            {"idMeteo":"3", "meteo":"Pluvieux", "validMeteo1":"1"}
+        ];
+
+        let expList = [];
+
+        function save(){
+
+            var dataStringExp = localStorage.getItem('dataExp');
+            if(dataStringExp!=null) expList=JSON.parse(dataStringExp);
+
+            var date = document.getElementById("idDate").value;
+            var heureDepart = document.getElementById("heureDepart").value;
+            var heureArrivee = document.getElementById("heureArrivee").value;
+            var km = parseInt(document.getElementById("km").value);
+            var meteo = document.getElementById("idMeteo").value;
+            var typeRoute = document.getElementById("idVar1").value;
+            var incidents = document.getElementById("idVar2").value;
+
+            var newIDExp=expList.length+1;
+            var newExp={"id":newIDExp, "dateExpCond":date, "heure_depart":heureDepart,
+                "heure_depart":heureDepart, "kilometrage":km, "idMeteo":meteo,
+                "idVar2":incidents, "idVar1":typeRoute
+            };
+            console.log(newExp);
+
+            expList.push(newExp);
+
+            expListString=JSON.stringify(expList);
+            localStorage.setItem('dataExp', expListString);
+            document.getElementById('formulaire').reset();
+
+        }
+
+        let categoryVar1 = [
+            {"idVar1":"1","type_de_route":"route-normal"},
+            {"idVar1":"2","type_de_route":"auto-route"}
+        ];
+
+
+        let categoryVar2 = [{"idVar2":"1", "incident":"OUI"}, {"idVar2":"2", "incident":"NON"}];
+  
+    </script>
 </head>
+
 <body>
- <header>
-  <nav>
-    <div class="tete">
-    <div class="logoderobbie">
-      <img class="logo" src="logorobbie.png" alt="logo">
-    </div>
-    <div class="lien">
-    <a class="box1" href="./index.html">Accueil</a>
-    <a class="box2" href="./propos.html">Apropos</a>
-    <a class="box3" href="./portfoli.html">Portfolio</a>
-    </div>
-    </div>
-  </nav>
- </header> 
-  <main>
-    <div>
-      <h1 class="titre">
-        Robbie Lens <br>
-        Photographie 
-      </h1>
-    </div>
-  </main>
-  <aside>
-    <div class="image">
-      <img src="robbie.png" alt="robbielens">
-    </div>
-  </aside>
-  <section>
-    <p>
-      Ou <em>professionalisme</em> s'allie avec <em>passion</em>. Depuis plus de 5 ans <br>
-      maintenant,j'exerce mon métier avec la passion qui m'anime:<br>
-      capturer l'essence de chaque instant.
-    </p>
-  </section>
-  <section>
-    <div class="couleurlien2">
-     <a class="lien2" href="#">UN PROJET? ECRIVEZ-MOI</a>
-    </div>
-    </section>
+    <form class="form" id="formulaire">
+        <fieldset>
+            <legend style="padding: 10px; color: white;">Experience de conduite </legend>
+        <div class="date">
+            <label for="idDate">Date:</label>
+            <input type="date" id="idDate" name="date" required><br>
+        </div><br>
+
+        <div class="hD">
+            <label for="heureDepart">Heure de départ:</label>
+            <input type="time" id="heureDepart" name="heure_depart" required><br>
+        </div><br>
+
+        <div class="hA">
+            <label for="heureArrivee">Heure d'arrivée:</label>
+            <input type="time" id="heureArrivee" name="heureArrivee" required><br>
+        </div><br>
+
+        <div class="km">
+            <label for="km">Kilométrage parcouru:</label>
+            <input type="number" id="km" name="kilometrage" required><br>
+        </div><br>
+
+        <div class="meteo">
+            <label for="idMeteo">Conditions météo:</label>
+            <select id="idMeteo" name="conditions_meteo" required></select><br>
+        </div><br>
+        <script>
+            categoryMeteo.forEach(function(item) {
+                let option = `<option value="${item.idMeteo}">${item.meteo}</option>`;
+                document.getElementById("idMeteo").insertAdjacentHTML("beforeend", option);
+            });
+        </script>
+
+        <div class="varVm">
+            <label for="idVar1">Type de route:</label>
+            <select id="idVar1" name="type_route" required></select><br>
+        </div><br>
+        <script>
+            categoryVar1.forEach(function(item) {
+                let option = `<option value="${item.idVar1}">${item.type_de_route}</option>`;
+                document.getElementById("idVar1").insertAdjacentHTML("beforeend", option);
+            });
+        </script>
+
+        <div class="incident">
+            <label for="idVar2">Incident:</label>
+            <select id="idVar2" name="incident" required></select>
+        </div><br>
+         <script>
+            categoryVar2.forEach(function(item) {
+                let option = `<option value="${item.idVar2}">${item.incident}</option>`;
+                document.getElementById("idVar2").insertAdjacentHTML("beforeend", option);
+            });
+        </script>
+
+        <div class="boutton">
+            <button type="button" onclick="save()">SAVE</button>
+        </div>
+    </fieldset>
+
+    </form>
+    <a href="file:///C:/Users/marba/OneDrive/Bureau/ProgWeb/pro2/bilan.html" style="text-decoration: none;">Le Bilan</a>
+
 </body>
-</html>
 
 
