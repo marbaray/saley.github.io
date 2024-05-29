@@ -2,35 +2,136 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="portfolio.css">
+    
+
+    <script>
+        let categoryMeteo = [
+            {"idMeteo":"1", "meteo":"Beau temps"},
+            {"idMeteo":"2", "meteo":"Nuageux"},
+            {"idMeteo":"3", "meteo":"Pluvieux"}
+        ];
+
+        let expList = [
+            {"id":"1","dateExpCond":"2024-05-08","heure_depart":"08:00","heure_arrivee":"09:00","kilometrage":"100","idMeteo":"2","idVar2":"3","idVar1":"2"},
+            {"id":"2","dateExpCond":"2024-06-08","heure_depart":"07:00","heure_arrivee":"08:00","kilometrage":"10","idMeteo":"1","idVar2":"3","idVar1":"1"},
+            {"id":"3","dateExpCond":"2024-07-08","heure_depart":"06:00","heure_arrivee":"07:00","kilometrage":"50","idMeteo":"3","idVar2":"3","idVar1":"2"}
+        ];
+
+        let categoryVar1 = [
+            {"idVar1":"1","type_de_route":"route-normal"},
+            {"idVar1":"2","type_de_route":"auto-route"}
+        ];
+
+
+        let categoryVar2 = [{"idVar2":"1", "incident":"OUI"}, {"idVar2":"2", "incident":"NON"}];
+
+        var dataStringExp = localStorage.getItem('dataExp');
+        if (dataStringExp != null) expList = JSON.parse(dataStringExp);
+
+        document.onreadystatechange = function() {
+            if (document.readyState == "complete") {
+                displayExpList();
+            }
+        };
+
+        function displayExpList() {
+            let idExpSum = 0;
+            let sumKm = 0;
+            const meteoCount = {};
+            const var2Count = {};
+            const var1Count = {};
+            /*const meteoCount = {};
+
+           
+            categoryMeteo.forEach(meteo => {
+                meteoCount[meteo.meteo] = 0;
+            });*/
+            
+            categoryMeteo.forEach(meteo => {
+                meteoCount[meteo.meteo] = 0;
+            });
+            //
+            categoryVar1.forEach(item => {
+                meteoCount[item.type_de_route] = 0;
+            });
+
+            let codeHTML = "<table>";
+           
+            expList.forEach(function(item) {
+                idExpSum += 1;
+                sumKm += item.kilometrage;
+
+                let searchIdMeteo = item.idMeteo;
+                let searchMeteo = categoryMeteo.find((categoryElement) => categoryElement.idMeteo == searchIdMeteo).meteo;
+
+               
+                if (searchMeteo in meteoCount) {
+                    meteoCount[searchMeteo] += 1;
+                } else {
+                    meteoCount[searchMeteo] = 1;
+                }
+                //
+
+                let searchIdVar1 = item.idVar1;
+                let searchVar1 = categoryVar1.find((categoryElement) => categoryElement.idVar1 == searchIdVar1).type_de_route;
+
+                
+                if (searchVar1 in var1Count) {
+                    var1Count[searchVar1] += 1;
+                } else {
+                    var1Count[searchVar1] = 1;
+                };
+                //
+
+                codeHTML += '<tr>';
+                codeHTML += `<td>${item.id}</td>`;
+                codeHTML += `<td>${searchMeteo}</td>`;
+                codeHTML += `<td>${item.kilometrage}</td>`;
+                codeHTML += `<td>${searchVar1}</td>`;
+                codeHTML += '</tr>';
+            });
+
+            codeHTML += '</table>';
+            document.getElementById("main").insertAdjacentHTML("afterbegin", codeHTML + '<br>');
+            document.getElementById("main").insertAdjacentHTML("beforeend", `<p style="color: red;">KM Total : ${sumKm}</p>`);
+
+           
+   
+
+            for (let meteo in meteoCount) {
+                if (meteoCount[meteo] > 0) {
+                    document.getElementById("main").insertAdjacentHTML("beforeend", `<p>Nombre d'Expériences pour ${meteo} : ${meteoCount[meteo]}</p>`);
+                }
+            }
+
+
+            for (let var1 in var1Count) {
+                if (var1Count[var1] > 0) {
+                    document.getElementById("main").insertAdjacentHTML("beforeend", `<p>Nombre d'Expériences pour ${var1} : ${var1Count[var1]}</p>`);
+                }
+            }
+
+        }   
+    </script>
+    <style>
+        table {
+            table-layout: auto;
+            width: 600px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
-          <div class="tete">
-          <div class="logoderobbie">
-            <img class="logo" src="logorobbie.png" alt="logo">
-          </div>
-          <div class="lien">
-          <a class="box1" href="./index.html">Accueil</a>
-          <a class="box2" href="./propos.html">Apropos</a>
-          <a class="box3" href="#">Portfolio</a>
-          </div>
-          </div>
-        </nav>
-       </header> 
-       <nav class="corps">
-        <div>
-            <h1 class="port">Portfolio</h1>
-        </div>
-       </nav>
-       <footer>
-        <h3>
-            Paysages
-        </h3>
-       </footer>
+    <section id="main"></section>
+    <a href="file:///C:/Users/marba/OneDrive/Bureau/ProgWeb/pro2/index.html" style="text-decoration: none;">Retour au projet</a>
+    
 </body>
 </html>
+
